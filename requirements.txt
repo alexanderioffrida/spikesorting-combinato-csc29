@@ -1,0 +1,45 @@
+# Python environment for the Combinato-via-SpikeInterface spike sorting notebook.
+# Tested on macOS (Apple Silicon), Python 3.13, in a venv.
+#
+#   python3 -m venv .venv
+#   source .venv/bin/activate
+#   pip install --upgrade pip
+#   pip install -r requirements.txt
+#
+# NOTE: phy 2.x is a pre-release, so it needs the --pre flag:
+#   pip install --pre phy
+# (it is pinned below; pip still requires --pre to accept an rc version)
+
+# --- core spike sorting stack ---
+spikeinterface==0.104.5
+probeinterface==0.3.2
+neo==0.14.4            # Neuralynx (.ncs) reader
+
+# --- scientific stack ---
+numpy==2.4.6
+scipy==1.18.0
+matplotlib==3.11.0
+scikit-learn==1.7.2
+numba==0.65.1
+
+# --- Combinato runtime deps (its css-* scripts import these) ---
+h5py==3.16.0
+tables==3.11.1        # PyTables
+PyWavelets==1.9.0     # imported as `pywt`
+
+# --- phy GUI (manual curation / visualization) ---
+phy==2.1.0rc1         # install with: pip install --pre phy
+phylib==2.7.0
+PyQt5==5.15.11
+PyOpenGL==3.1.10
+
+# --- notebook ---
+jupyterlab==4.6.0
+notebook==7.6.0
+ipykernel==7.3.0
+
+# ---------------------------------------------------------------------------
+# NOT on PyPI — install separately (see README):
+#   Combinato:  git clone https://github.com/jniediek/combinato
+#               cd combinato && python3 setup_options.py
+#               export COMBINATO_PATH=/path/to/combinato

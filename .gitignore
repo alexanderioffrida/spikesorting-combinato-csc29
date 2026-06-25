@@ -1,0 +1,20 @@
+# --- data (large; download separately, see README) ---
+data_real/
+data/
+*.ncs
+
+# --- sorter / analysis outputs ---
+results/
+logs/
+
+# --- python env ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- jupyter ---
+.ipynb_checkpoints/
+
+# --- os ---
+.DS_Store
