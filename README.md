@@ -20,18 +20,28 @@ Each Combinato step is mapped to its SpikeInterface equivalent:
 | 5 | `css-simple-clustering` | `run_sorter("combinato", ...)` |
 | 6 | `css-plot-sorted` | `SortingAnalyzer` + plotting widgets |
 | 7 | `css-gui` | export to **phy** for manual curation |
+| 8 | **full CLI**: extract → **mask** → cluster (pos & neg) | driven directly; both signs side by side |
 
-The actual sort (step 5) calls the real Combinato through SpikeInterface's external-sorter
+The quick sort (step 5) calls the real Combinato through SpikeInterface's external-sorter
 wrapper, which runs `css-extract` + `css-simple-clustering`. Combinato does its own
 filtering (elliptic bandpass: 300–1000 Hz detection, 300–3000 Hz extraction, ~2 kHz notch)
 and detection, so it receives the **raw** recording. The filtering/detection in steps 2–3
 are SpikeInterface re-implementations shown for understanding only.
 
-> **Note:** the wrapper does **not** run `css-mask-artifacts` — it only invokes `css-extract`
-> and `css-simple-clustering` (confirmed in `spikeinterface/sorters/external/combinato.py` and
-> by `No artifacts defined` in the run log). Step 4 therefore only *reports* candidate artifacts.
+> **Note:** the wrapper does **not** run `css-mask-artifacts`, and it clusters only **one**
+> sign per call (confirmed in `spikeinterface/sorters/external/combinato.py` and by
+> `No artifacts defined` in the run log). Step 4 therefore only *reports* candidate artifacts.
 
-Result on `CSC29.ncs`: **4 units** (negative threshold, `detect_threshold=5`).
+**Section 8** is the faithful Tutorial-Part-III reproduction: it drives Combinato's CLI
+directly (`css-extract` → `css-mask-artifacts` → `css-simple-clustering` for **both** the
+positive `sort_pos_simple` and negative `sort_neg_simple`), then loads each sign with
+`CombinatoSortingExtractor(det_sign=...)` and plots them side by side. This is the sign
+(positive) and the masking step the wiki tutorial actually walks through.
+
+Result on `CSC29.ncs`: the quick negative sort (step 5) gives **~4 units**; the masked
+Section-8 sort gives a positive and a negative unit set (exact counts vary slightly —
+Combinato's clustering is not fully deterministic). `css-mask-artifacts` removes ~79
+double-detection artifact spikes.
 
 ## Setup
 
